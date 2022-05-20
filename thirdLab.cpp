@@ -1,54 +1,81 @@
 
 #include <iostream>
 using namespace std;
+package main;
+import(
+    "errors"
+    "fmt"
+    "log"
+    )
 
-class BST {
-    int data;
-    BST *left, *right;
-
-    public:
-    BST(int value)
-    {
-        data = value;
-        left = right = NULL;
-    }
-
-    BST* Insert(BST* root, int value)
-    {
-        if (!root) {
-            return new BST(value);
-        }
-        if (value > root->data) {
-            root->right = Insert(root->right, value);
-        }
-        else {
-            root->left = Insert(root->left, value);
-        }
-        return root;
-    }
-
-    void Inorder(BST* root)
-    {
-        if (!root) {
-            return;
-        }
-        Inorder(root->left);
-        cout << root->data << endl;
-        Inorder(root->right);
-    };
+struct Node {
+	int data;
+	Node* left;
+	Node* right;
 };
+
+Node* CreateNode(int data)
+{
+	Node* newNode = new Node();
+	if (!newNode) {
+		cout << "Memory error\n";
+		return NULL;
+	}
+	newNode->data = data;
+	newNode->left = newNode->right = NULL;
+	return newNode;
+}
+
+func(n* Node) rebalance()* Node {
+	fmt.Println("rebalance " + n.Value)
+		n.Dump(0, "")
+		switch {
+		case n.Bal() < -1 && n.Left.Bal() == -1:
+			return n.rotateRight()
+		case n.Bal() > 1 && n.Right.Bal() == 1:
+			return n.rotateLeft()
+		case n.Bal() < -1 && n.Left.Bal() == 1:
+			return n.rotateLeftRight()
+		case n.Bal() > 1 && n.Right.Bal() == -1:
+			return n.rotateRightLeft()
+		}
+	return n
+}
+
+func(n* Node) Insert(value, data string)* Node {
+	if n == nil{
+		return &Node{
+			Value:  value,
+			Data : data,
+			height : 1,
+		}
+	}
+		if n.Value == value{
+			n.Data = data
+			return n
+		}
+
+			if value < n.Value{
+				n.Left = n.Left.Insert(value, data)
+			}
+			else {
+				n.Right = n.Right.Insert(value, data)
+			}
+
+	n.height = max(n.Left.Height(), n.Right.Height()) + 1
+		return n.rebalance()
+}
+
+
 
 int main()
 {
-    BST b, * root = NULL;
-    root = b.Insert(root, 50);
-    b.Insert(root, 30);
-    b.Insert(root, 20);
-    b.Insert(root, 40);
-    b.Insert(root, 70);
-    b.Insert(root, 60);
-    b.Insert(root, 80);
+	Node* root = CreateNode(10);
+	root->left = CreateNode(11);
+	root->left->left = CreateNode(7);
+	root->right = CreateNode(9);
+	root->right->left = CreateNode(15);
+	root->right->right = CreateNode(8);
 
-    b.Inorder(root);
     return 0;
 }
